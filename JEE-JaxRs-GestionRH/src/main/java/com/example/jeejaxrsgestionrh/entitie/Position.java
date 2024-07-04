@@ -24,6 +24,6 @@ public class Position {
     private String name;
 
     @OneToMany(mappedBy = "position", fetch = FetchType.EAGER , cascade = CascadeType.DETACH)
-    @JsonManagedReference
+    @JsonManagedReference("position-employee")
     private List<Employee> employees;
 }
