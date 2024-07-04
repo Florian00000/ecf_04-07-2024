@@ -9,6 +9,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/employee")
 @Produces(MediaType.APPLICATION_JSON)
@@ -23,20 +24,30 @@ public class EmployeeController {
 
     @GET
     public List<Employee> getAllEmployees() {
-        return employeeService.getAllEmployees();
+        List<Employee> employees = employeeService.getAllEmployees();
+        return employees.stream().peek(e -> {
+            e.setPosition(e.getPosition());
+            e.setDepartment(e.getDepartment());
+        }).collect(Collectors.toList());
     }
 
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Employee addEmployee(Employee employee) {
-        return employeeService.createEmployee(employee);
+        Employee employeeSend = employeeService.createEmployee(employee);
+        employeeSend.setPosition(employeeSend.getPosition());
+        employeeSend.setDepartment(employeeSend.getDepartment());
+        return employeeSend;
     }
 
     @GET
     @Path("/{id}")
     public Employee getEmployee(@PathParam("id") int id) {
-        return employeeService.getEmployeeById(id);        
+        Employee employee = employeeService.getEmployeeById(id);
+        employee.setPosition(employee.getPosition());
+        employee.setDepartment(employee.getDepartment());
+        return employee;
     }
 
     @DELETE

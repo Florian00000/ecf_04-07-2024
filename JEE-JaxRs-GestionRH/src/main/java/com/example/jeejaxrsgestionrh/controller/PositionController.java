@@ -8,6 +8,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/position")
 @Produces(MediaType.APPLICATION_JSON)
@@ -22,7 +23,10 @@ public class PositionController {
 
     @GET
     public List<Position> getAllPositions() {
-        return positionService.findAll();
+        List<Position> positions = positionService.findAll();
+        return positions.stream().peek(position -> {
+            position.setEmployees(position.getEmployees());
+        }).collect(Collectors.toList());
     }
 
     @POST
@@ -35,7 +39,9 @@ public class PositionController {
     @GET
     @Path("/{id}")
     public Position getPositionById(@PathParam("id") int id) {
-        return positionService.findById(id);
+        Position position = positionService.findById(id);
+        position.setEmployees(position.getEmployees());
+        return position;
     }
 
     @DELETE

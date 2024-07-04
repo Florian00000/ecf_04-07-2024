@@ -8,6 +8,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/department")
 @Produces(MediaType.APPLICATION_JSON)
@@ -22,7 +23,10 @@ public class DepartmentController {
 
     @GET
     public List<Department> getAllDepartments() {
-        return departmentService.getAllDepartments();
+        List<Department> departments = departmentService.getAllDepartments();
+        return departments.stream().peek(department -> {
+            department.setEmployees(department.getEmployees());
+        }).collect(Collectors.toList());
     }
 
     @POST
@@ -35,7 +39,9 @@ public class DepartmentController {
     @GET
     @Path("/{id}")
     public Department getDepartmentById(@PathParam("id") int id) {
-        return departmentService.getDepartmentById(id);
+        Department department = departmentService.getDepartmentById(id);
+        department.setEmployees(department.getEmployees());
+        return department;
     }
 
     @DELETE
