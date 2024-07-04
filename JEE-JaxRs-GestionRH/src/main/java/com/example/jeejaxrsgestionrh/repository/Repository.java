@@ -19,7 +19,9 @@ public abstract class Repository<T> {
         _session.merge(obj);
     }
 
-    abstract void delete(T obj) ;
+    public void delete(T obj) {
+        _session.remove(obj);
+    }
 
     abstract T findById(int id);
 

@@ -1,5 +1,7 @@
 package com.example.jeejaxrsgestionrh.entitie;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,9 +22,11 @@ public class Employee {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinColumn(name = "position_id")
+    @JsonBackReference
     private Position position;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinColumn(name = "department_id")
+    @JsonBackReference
     private Department department;
 }

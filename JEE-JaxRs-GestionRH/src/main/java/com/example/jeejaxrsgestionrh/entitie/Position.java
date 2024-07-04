@@ -1,5 +1,7 @@
 package com.example.jeejaxrsgestionrh.entitie;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +23,7 @@ public class Position {
     @Column(name = "name_position")
     private String name;
 
-    @OneToMany(mappedBy = "position", fetch = FetchType.LAZY , cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "position", fetch = FetchType.EAGER , cascade = CascadeType.DETACH)
+    @JsonManagedReference
     private List<Employee> employees;
 }

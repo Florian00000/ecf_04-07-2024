@@ -1,5 +1,6 @@
 package com.example.jeejaxrsgestionrh.entitie;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,5 +23,6 @@ public class Department {
     private String name;
 
     @OneToMany(mappedBy = "department", fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @JsonManagedReference
     private List<Employee> employees;
 }

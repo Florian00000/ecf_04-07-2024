@@ -12,16 +12,10 @@ public class DepartmentRepository extends Repository<Department> {
     }
 
     @Override
-    public void delete(Department obj) {
-            _session.remove(obj);
-
-    }
-
-    @Override
     public Department findById(int id) {
         try{
             return (Department) _session.get(Department.class, id);
-        }catch(Exception re){
+        }catch(Exception e){
             return null;
         }
 

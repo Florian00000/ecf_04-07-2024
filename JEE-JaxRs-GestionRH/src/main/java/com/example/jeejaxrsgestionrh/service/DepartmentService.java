@@ -20,17 +20,6 @@ public class DepartmentService {
         this.sessionFactory = HibernateSession.getSessionFactory();
     }
 
-    public Department createDepartment(String name){
-        session = sessionFactory.openSession();
-        session.beginTransaction();
-        departmentRepository = new DepartmentRepository(session);
-        Department department = Department.builder().name(name).build();
-        departmentRepository.create(department);
-        session.getTransaction().commit();
-        session.close();
-        return department;
-    }
-
     public List<Department> getAllDepartments(){
         session = sessionFactory.openSession();
         departmentRepository = new DepartmentRepository(session);
@@ -43,6 +32,17 @@ public class DepartmentService {
         session = sessionFactory.openSession();
         departmentRepository = new DepartmentRepository(session);
         Department department = departmentRepository.findById(id);
+        session.close();
+        return department;
+    }
+
+    public Department createDepartment(String name){
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+        departmentRepository = new DepartmentRepository(session);
+        Department department = Department.builder().name(name).build();
+        departmentRepository.create(department);
+        session.getTransaction().commit();
         session.close();
         return department;
     }
