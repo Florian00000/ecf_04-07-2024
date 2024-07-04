@@ -44,4 +44,12 @@ public class Department {
             }).collect(Collectors.toList());
         }
     }
+    @PreRemove
+    public void preRemove(){
+        if (employees != null) {
+            employees.forEach(e -> {
+                e.setDepartment(null);
+            });
+        }
+    }
 }
