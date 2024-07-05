@@ -72,4 +72,42 @@ public class EmployeeController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
+
+    @GET
+    @Path("/lastname={lastname}")
+    public List<Employee> getByLastname(@PathParam("lastname") String lastName) {
+        List <Employee> employees = employeeService.getAllEmployees();
+        return employees.stream()
+                .filter(employee -> employee.getLastName().equalsIgnoreCase(lastName))
+                .peek(e -> {
+                    e.setPosition(e.getPosition());
+                    e.setDepartment(e.getDepartment());
+                })
+                .collect(Collectors.toList());
+    }
+
+    @GET
+    @Path("/department={department}")
+    public List<Employee> getByDepartment(@PathParam("department") String department) {
+        List <Employee> employees = employeeService.getAllEmployees();
+        return employees.stream()
+                .filter(employee -> employee.getDepartment() != null && employee.getDepartment().getName().equalsIgnoreCase(department))
+                .peek(e -> {
+                    e.setPosition(e.getPosition());
+                    e.setDepartment(e.getDepartment());
+                }).collect(Collectors.toList());
+    }
+
+    @GET
+    @Path("/position={position}")
+    public List<Employee> getByPosition(@PathParam("position") String position) {
+        List <Employee> employees = employeeService.getAllEmployees();
+        return employees.stream()
+                .filter(employee -> employee.getPosition() != null && employee.getPosition().getName().equalsIgnoreCase(position))
+                .peek(e -> {
+                    e.setPosition(e.getPosition());
+                    e.setDepartment(e.getDepartment());
+                }).collect(Collectors.toList());
+    }
+
 }
