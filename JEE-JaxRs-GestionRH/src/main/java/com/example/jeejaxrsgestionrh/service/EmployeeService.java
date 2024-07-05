@@ -1,6 +1,8 @@
 package com.example.jeejaxrsgestionrh.service;
 
+import com.example.jeejaxrsgestionrh.entitie.Department;
 import com.example.jeejaxrsgestionrh.entitie.Employee;
+import com.example.jeejaxrsgestionrh.entitie.Position;
 import com.example.jeejaxrsgestionrh.repository.EmployeeRepository;
 import com.example.jeejaxrsgestionrh.util.HibernateSession;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -61,5 +63,28 @@ public class EmployeeService {
             return false;
         }
         return true;
+    }
+
+    public boolean updateEmployee(int id , Position position, Department department) {
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+        employeeRepository = new EmployeeRepository(session);
+        Employee employee = employeeRepository.findById(id);
+        if (employee != null && (position != null || department != null)) {
+            if (position != null) {
+                employee.setPosition(position);
+            }
+            if (department != null) {
+                employee.setDepartment(department);
+            }
+            employeeRepository.update(employee);
+            session.getTransaction().commit();
+            session.close();
+            return true;
+        }else {
+            session.getTransaction().rollback();
+            session.close();
+            return false;
+        }
     }
 }

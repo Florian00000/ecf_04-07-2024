@@ -60,4 +60,16 @@ public class EmployeeController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
+
+    @PATCH
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateEmployee(@PathParam("id") int id, Employee employee) {
+        boolean result = employeeService.updateEmployee(id, employee.getPosition(), employee.getDepartment());
+        if (result) {
+            return Response.ok().build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
 }
